@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 
+
+const CHROMIUM_PATH =
+  "https://vomrghiulbmrfvmhlflk.supabase.co/storage/v1/object/public/chromium-pack/chromium-v123.0.0-pack.tar";
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const urlParam = searchParams.get("url");
@@ -36,12 +40,14 @@ export async function GET(request: NextRequest) {
       };
 
     if (isVercel) {
-      const chromium = (await import("@sparticuz/chromium")).default;
-      puppeteer = await import("puppeteer-core");
+        const chromium = (await import("@sparticuz/chromium")).default;
+        puppeteer = await import("puppeteer-core");
+        const executablePath = await chromium.executablePath(CHROMIUM_PATH);
+        console.log('executablePath', executablePath);
       launchOptions = {
         ...launchOptions,
         args: chromium.args,
-        executablePath: await chromium.executablePath(),
+        executablePath,
       };
     } else {
       puppeteer = await import("puppeteer");
