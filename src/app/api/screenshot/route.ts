@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 
 const CHROMIUM_PATH =
-  "https://vomrghiulbmrfvmhlflk.supabase.co/storage/v1/object/public/chromium-pack/chromium-v123.0.0-pack.tar";
+  "https://github.com/Sparticuz/chromium/releases/download/v138.0.2/chromium-v138.0.2-pack.x64.tar";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
       };
 
     if (isVercel) {
-        const chromium = (await import("@sparticuz/chromium")).default;
+        const chromium = (await import("@sparticuz/chromium-min")).default;
         puppeteer = await import("puppeteer-core");
         const executablePath = await chromium.executablePath(CHROMIUM_PATH);
         console.log('executablePath', executablePath);
